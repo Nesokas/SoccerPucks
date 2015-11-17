@@ -24,15 +24,20 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
 
 	UPROPERTY(EditAnywhere)
-	USceneComponent* OurVisibleComponent;
+	USceneComponent* hero_component;
+
+	UPROPERTY(EditAnywhere)
+	UFloatingPawnMovement* movement_component;
+
 
 	//Input functions
 	void Move_XAxis(float AxisValue);
 	void Move_YAxis(float AxisValue);
-	void StartGrowing();
-	void StopGrowing();
 
 	//Input variables
 	FVector CurrentVelocity;
 	bool bGrowing;
+
+	float x_value;
+	float y_value;
 };
