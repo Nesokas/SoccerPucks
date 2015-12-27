@@ -11,16 +11,6 @@ AHero::AHero()
 
 	// Set this pawn to be controlled by the lowest-numbered player
 	AutoPossessPlayer = EAutoReceiveInput::Player0;
-	
-	// Create a dummy root component we can attach things to.
-	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
-
-	//UCameraComponent* OurCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("OurCamera"));
-	hero_component = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("hero_component"));
-	
-	movement_component = CreateDefaultSubobject<UFloatingPawnMovement>(TEXT("movement_component"));
-
-	hero_component->AttachTo(RootComponent);
 
 }
 
@@ -28,7 +18,14 @@ AHero::AHero()
 void AHero::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	TArray<UFloatingPawnMovement*> all_movement_components;
+	GetComponents(all_movement_components);
+
+	for (UFloatingPawnMovement* move_comp : all_movement_components)
+	{
+		movement_component = move_comp;
+	}
 }
 
 // Called every frame
@@ -41,12 +38,13 @@ void AHero::Tick( float DeltaTime )
 	const FVector Movement = MoveDirection * movement_component->MaxSpeed * DeltaTime;
 	
 
-	GEngine->AddOnScreenDebugMessage(0, 15.0f, FColor::Red, Movement.ToString());
+	//GEngine->AddOnScreenDebugMessage(0, 15.0f, FColor::Red, Movement.ToString());
 
 
 	if (Movement.SizeSquared() > 0.0f)
 	{
 		movement_component->AddInputVector(Movement);
+		GEngine->AddOnScreenDebugMessage(0, 15.0f, FColor::Red, movement_component->Velocity.ToString());
 	}
 
 }

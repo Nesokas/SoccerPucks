@@ -23,12 +23,7 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
 
-	UPROPERTY(EditAnywhere)
-	USceneComponent* hero_component;
-
-	UPROPERTY(EditAnywhere)
 	UFloatingPawnMovement* movement_component;
-
 
 	//Input functions
 	void Move_XAxis(float AxisValue);
