@@ -35,16 +35,15 @@ void AHero::Tick( float DeltaTime )
 
 	const FVector MoveDirection = FVector(x_value, y_value, 0.f).GetClampedToMaxSize(1.0f);
 	//const float MoveSpeed = 20.0f;
-	const FVector Movement = MoveDirection * movement_component->MaxSpeed * DeltaTime;
 	
+	if (movement_component != NULL) {
+		const FVector Movement = MoveDirection * movement_component->MaxSpeed * DeltaTime;
 
-	//GEngine->AddOnScreenDebugMessage(0, 15.0f, FColor::Red, Movement.ToString());
-
-
-	if (Movement.SizeSquared() > 0.0f)
-	{
-		movement_component->AddInputVector(Movement);
-		GEngine->AddOnScreenDebugMessage(0, 15.0f, FColor::Red, movement_component->Velocity.ToString());
+		if (Movement.SizeSquared() > 0.0f)
+		{
+			movement_component->AddInputVector(Movement);
+			GEngine->AddOnScreenDebugMessage(0, 15.0f, FColor::Red, movement_component->Velocity.ToString());
+		}
 	}
 
 }
