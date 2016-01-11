@@ -23,7 +23,7 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
 
-	UFloatingPawnMovement* movement_component;
+	UBoxComponent* skeletal_component;
 
 	//Input functions
 	void Move_XAxis(float AxisValue);
