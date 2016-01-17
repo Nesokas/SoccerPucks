@@ -23,7 +23,10 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
 
-	UBoxComponent* skeletal_component;
+	UBoxComponent* box_component;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Variables)
+	float push_force;
 
 	//Input functions
 	void Move_XAxis(float AxisValue);

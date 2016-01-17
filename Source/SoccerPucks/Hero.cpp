@@ -19,12 +19,12 @@ void AHero::BeginPlay()
 {
 	Super::BeginPlay();
 
-	TArray<UBoxComponent*> all_skeletal_components;
-	GetComponents(all_skeletal_components);
+	TArray<UBoxComponent*> all_box_components;
+	GetComponents(all_box_components);
 
-	for (UBoxComponent* skel_comp : all_skeletal_components)
+	for (UBoxComponent* box_comp : all_box_components)
 	{
-		skeletal_component = skel_comp;
+		box_component = box_comp;
 	}
 }
 
@@ -36,12 +36,13 @@ void AHero::Tick( float DeltaTime )
 	const FVector MoveDirection = FVector(x_value, y_value, 0.f).GetClampedToMaxSize(1.0f);
 	//const float MoveSpeed = 20.0f;
 	
-	if (skeletal_component != NULL) {
-		const FVector Movement = MoveDirection * 350000.0f * DeltaTime;
+	if (box_component != NULL) {
+		//push_force = 9990000.0f
+		const FVector Movement = MoveDirection * push_force * DeltaTime;
 		GEngine->AddOnScreenDebugMessage(0, 15.0f, FColor::Red, Movement.ToString());
 		if (Movement.SizeSquared() > 0.0f)
 		{
-			skeletal_component->AddForce(Movement);
+			box_component->AddForce(Movement);
 		}
 	}
 
