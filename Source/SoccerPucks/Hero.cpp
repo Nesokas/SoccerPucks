@@ -38,8 +38,8 @@ void AHero::Tick( float DeltaTime )
 	
 	if (box_component != NULL) {
 		//push_force = 9990000.0f
-		const FVector Movement = MoveDirection * push_force * DeltaTime;
-		GEngine->AddOnScreenDebugMessage(0, 15.0f, FColor::Red, Movement.ToString());
+		const FVector Movement = MoveDirection * push_force;
+		GEngine->AddOnScreenDebugMessage(0, 15.0f, FColor::Red, box_component->GetPhysicsLinearVelocity().ToString() /*Movement.ToString()*/);
 		if (Movement.SizeSquared() > 0.0f)
 		{
 			box_component->AddForce(Movement);
