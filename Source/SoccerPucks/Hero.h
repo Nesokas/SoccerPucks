@@ -3,6 +3,7 @@
 #pragma once
 
 #include "GameFramework/Pawn.h"
+#include "Ball.h"
 #include "Hero.generated.h"
 
 UCLASS()
@@ -10,7 +11,15 @@ class SOCCERPUCKS_API AHero : public APawn
 {
 	GENERATED_BODY()
 
+
 public:
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Variables)
+	float PUSH_FORCE;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Variables)
+	float SHOOT_VELOCITY;
+
 	// Sets default values for this pawn's properties
 	AHero();
 
@@ -23,6 +32,9 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
 
+	ABall* ball;
+	bool is_colliding_with_ball;
+
 	UBoxComponent* box_component;
 	USphereComponent* shoot_collider;
 
@@ -34,11 +46,8 @@ public:
 	void OnOverlapEnd(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 	void OnOverlapEnd_Implementation(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Variables)
-		float push_force;
-
 	UFUNCTION()
-		void Shoot();
+	void Shoot();
 
 	//Input functions
 	void Move_XAxis(float AxisValue);

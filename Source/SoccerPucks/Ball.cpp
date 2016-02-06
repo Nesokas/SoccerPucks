@@ -16,6 +16,14 @@ ABall::ABall()
 void ABall::BeginPlay()
 {
 	Super::BeginPlay();
+
+	TArray<UBoxComponent*> all_box_components;
+	GetComponents(all_box_components);
+
+	for (UBoxComponent* box_comp : all_box_components)
+	{
+		box_component = box_comp;
+	}
 	
 	
 }
@@ -25,5 +33,12 @@ void ABall::Tick( float DeltaTime )
 {
 	Super::Tick( DeltaTime );
 
+}
+
+void ABall::AddVelocity(FVector direction, float velocity)
+{
+	FVector impulse = direction*velocity;
+//	UE_LOG(LogTemp, Warning, TEXT("%f %f %f"), impulse.X, impulse.Y, impulse.Z);
+	box_component->AddImpulse(impulse);
 }
 

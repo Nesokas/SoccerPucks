@@ -2,7 +2,7 @@
 
 #include "SoccerPucks.h"
 #include "Hero.h"
-#include "Ball.h"
+
 
 // Sets default values
 AHero::AHero()
@@ -54,7 +54,7 @@ void AHero::Tick( float DeltaTime )
 	
 	if (box_component != NULL) {
 		//push_force = 9990000.0f
-		const FVector Movement = MoveDirection * push_force;
+		const FVector Movement = MoveDirection * PUSH_FORCE;
 		GEngine->AddOnScreenDebugMessage(0, 15.0f, FColor::Red, box_component->GetPhysicsLinearVelocity().ToString() /*Movement.ToString()*/);
 		if (Movement.SizeSquared() > 0.0f)
 		{
@@ -72,24 +72,40 @@ void AHero::SetupPlayerInputComponent(class UInputComponent* InputComponent)
 	// Respond every frame to the values of our two movement axes, "MoveX" and "MoveY".
 	InputComponent->BindAxis("MoveX", this, &AHero::Move_XAxis);
 	InputComponent->BindAxis("MoveY", this, &AHero::Move_YAxis);
+	InputComponent->BindAction("Shoot", IE_Pressed, this, &AHero::Shoot);
+
 }
 
 void AHero::OnOverlapBegin_Implementation(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {	
 	UE_LOG(LogTemp, Warning, TEXT("ENTER"));
 	UE_LOG(LogTemp, Warning, TEXT("%s"), *OtherComp->GetName());
-	if(OtherActor->IsA(ABall::StaticClass()))
-		UE_LOG(LogTemp, Warning, TEXT("Your message"));
+	if (OtherActor->IsA(ABall::StaticClass())) {
+		ball = (ABall*)OtherActor;
+		is_colliding_with_ball = true;
+	}
 }
 
 void AHero::OnOverlapEnd_Implementation(AActor * OtherActor, UPrimitiveComponent * OtherComp, int32 OtherBodyIndex)
 {
 	UE_LOG(LogTemp, Warning, TEXT("LEAVE"));
+	is_colliding_with_ball = false;
 }
 
 void AHero::Shoot()
 {
+	if (is_colliding_with_ball) {
+		FVector ball_position = ball->GetActorLocation();
+		FVector hero_position = this->GetActorLocation();
 
+		FVector direction = ball_position - hero_position;
+		direction.Z = 0.0;
+		direction.Normalize();
+
+		UE_LOG(LogTemp, Warning, TEXT("DIRECTION: %f %f %f"), direction.X, direction.Y, direction.Z);
+		
+		ball->AddVelocity(direction, SHOOT_VELOCITY);
+	}
 }
 
 void AHero::Move_XAxis(float AxisValue)

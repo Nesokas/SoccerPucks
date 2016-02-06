@@ -9,6 +9,10 @@ UCLASS()
 class SOCCERPUCKS_API ABall : public AActor
 {
 	GENERATED_BODY()
+
+private:
+
+	UBoxComponent* box_component;
 	
 public:	
 	// Sets default values for this actor's properties
@@ -19,6 +23,8 @@ public:
 	
 	// Called every frame
 	virtual void Tick( float DeltaSeconds ) override;
+
+	void AddVelocity(FVector direction, float velocity);
 
 	
 	
