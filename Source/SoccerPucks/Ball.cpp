@@ -17,12 +17,13 @@ void ABall::BeginPlay()
 {
 	Super::BeginPlay();
 
-	TArray<UBoxComponent*> all_box_components;
-	GetComponents(all_box_components);
+	TArray<USphereComponent*> all_sphere_components;
+	GetComponents(all_sphere_components);
 
-	for (UBoxComponent* box_comp : all_box_components)
+	for (USphereComponent* sphere_comp : all_sphere_components)
 	{
-		box_component = box_comp;
+		if (sphere_comp->GetName().Equals("HorizontalCollider"))
+			horizontal_collider = sphere_comp;
 	}
 	
 	
@@ -39,6 +40,6 @@ void ABall::AddVelocity(FVector direction, float velocity)
 {
 	FVector impulse = direction*velocity;
 //	UE_LOG(LogTemp, Warning, TEXT("%f %f %f"), impulse.X, impulse.Y, impulse.Z);
-	box_component->AddImpulse(impulse);
+	horizontal_collider->AddImpulse(impulse);
 }
 

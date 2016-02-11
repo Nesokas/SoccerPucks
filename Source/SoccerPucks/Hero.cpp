@@ -19,20 +19,14 @@ void AHero::BeginPlay()
 {
 	Super::BeginPlay();
 
-	TArray<UBoxComponent*> all_box_components;
-	GetComponents(all_box_components);
-
-	for (UBoxComponent* box_comp : all_box_components)
-	{
-		box_component = box_comp;
-	}
-
 	TArray<USphereComponent*> all_sphere_components;
 	GetComponents(all_sphere_components);
 
 	for (USphereComponent* sphere_comp : all_sphere_components)
 	{
-		if (sphere_comp->GetName().Equals("ShootCollider")) {
+		if (sphere_comp->GetName().Equals("HorizontalCollider")) {
+			horizontal_collider = sphere_comp;
+		} else if (sphere_comp->GetName().Equals("ShootCollider")) {
 			shoot_collider = sphere_comp;
 		}
 	}
@@ -51,17 +45,15 @@ void AHero::Tick( float DeltaTime )
 
 	const FVector MoveDirection = FVector(x_value, y_value, 0.f).GetClampedToMaxSize(1.0f);
 	//const float MoveSpeed = 20.0f;
-	
-	if (box_component != NULL) {
+	if (horizontal_collider != NULL) {
 		//push_force = 9990000.0f
 		const FVector Movement = MoveDirection * PUSH_FORCE;
-		GEngine->AddOnScreenDebugMessage(0, 15.0f, FColor::Red, box_component->GetPhysicsLinearVelocity().ToString() /*Movement.ToString()*/);
+		GEngine->AddOnScreenDebugMessage(0, 15.0f, FColor::Red, horizontal_collider->GetPhysicsLinearVelocity().ToString() /*Movement.ToString()*/);
 		if (Movement.SizeSquared() > 0.0f)
 		{
-			box_component->AddForce(Movement);
+			horizontal_collider->AddForce(Movement);
 		}
 	}
-
 }
 
 // Called to bind functionality to input

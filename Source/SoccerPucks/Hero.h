@@ -35,7 +35,7 @@ public:
 	ABall* ball;
 	bool is_colliding_with_ball;
 
-	UBoxComponent* box_component;
+	USphereComponent* horizontal_collider;
 	USphereComponent* shoot_collider;
 
 	UFUNCTION(BlueprintNativeEvent, Category = "Shoot Function")

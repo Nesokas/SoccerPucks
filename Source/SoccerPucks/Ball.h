@@ -12,7 +12,7 @@ class SOCCERPUCKS_API ABall : public AActor
 
 private:
 
-	UBoxComponent* box_component;
+	USphereComponent* horizontal_collider;
 	
 public:	
 	// Sets default values for this actor's properties
